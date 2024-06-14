@@ -1,0 +1,70 @@
+@charset "utf-8";
+/*placeholder*/
+::-webkit-input-placeholder{/* Webkit browsers */color: #888;}
+:-moz-placholder{/* Mozilla Firefox 4 to 18 */ color: #888;}
+::-moz-placholder{/* Mozilla Firefox 19+ */ color: #888;}
+:-ms-input-placholder{/*Internet Explorer 10+ */ color: #888;}
+
+/*새창팝업*/
+.popup {margin: 0; padding: 0; width: 100%; max-width: 100%; min-width: 100%;}
+
+/* popup option */
+
+.popup div {line-height: 1; box-sizing: border-box;}
+.popup .popup-box {background: #FFF;}
+.popup .popup-box .popup-header {position: relative; background: #3BAFDA; padding: 1rem; width: 100%;}
+.popup .popup-box .popup-header h3 {font-size: 1.2rem; color: #FFF; font-weight: 500;}
+.popup .popup-box .popup-header .btn-x {position: absolute; top: 0; right: 0; background: none; font-size: 1.3rem; line-height: 1.65;}
+.popup .popup-box .popup-header .btn-x i {font-weight: 400;}
+.popup .popup-box .popup-container {padding: 1rem; width: 100%;}
+.popup .popup-box .popup-container h4 {font-size: 1rem; font-weight: 600; margin: 0;}
+.popup .popup-box .popup-footer {position: fixed; bottom: 0; text-align: right; padding: 1rem; width: 100%; border-top: 1px solid #E4E4E4; background: #fff; z-index: 1;}
+.popup .popup-box .popup-footer .btn {padding: .8rem 1.5rem;}
+.popup-body {width: 100%; padding: 0 0 100px 0;}
+
+/* popup-list-design */
+.popup-list {padding-left: 1.2rem;}
+.popup-list, .popup-list li {line-height: 1.5;}
+
+/* popup-lnput-wrap-design */
+.popup-input-wrap {border-top: 2px solid #3BAFDA; border-bottom: 1px solid #e2e2e2; padding: .5rem; box-sizing: border-box;}
+
+/* popup table */
+.popup-table {border-top: 1px solid #3BAFDA;}
+.popup-table table th{text-align: center; color: #3BAFDA;}
+.popup-table th{background: #fff;  font-weight: 600; border-bottom: 1px solid #e2e2e2;}
+.popup-table th, .popup-table td{padding: .8em .3rem; border-right: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2;}
+.popup-table th:last-child, .popup-table td:last-child {border-right: 0;}
+.popup-table tr:last-child th {border-bottom: 1px solid #CCC;}
+.popup-table tr:last-child td {border-bottom: none;}
+.popup-table.popup-table-vertical th, .popup-table.popup-table-vertical td{text-align: left; padding: .5em; border-right: 0;}
+.popup-table td p {text-align: left; padding: .5em; line-height: 1.1rem;}
+.popup-table td ul li {margin-bottom: .3em;}
+.popup-table td ul li:last-child {margin-bottom: 0;}
+.popup-table td ul li a {color: #3BAFDA;}
+.popup-table td a {text-decoration: none;}
+
+.popup-search {display: flex; align-items: center; justify-content: center; background: #f1f1f1; padding: 12px 0; width: 100%; border-bottom: 1px solid #e2e2e2;}
+.popup-search input {min-width: 230px;}
+/*.popup-search button {min-height: 35px; padding: 0 20px;}*/
+
+td .add-user {justify-content: flex-start;}
+.add-user {display: flex; align-items: stretch; justify-content: flex-end;}
+.add-user span {width: 40px; padding: .35rem .5rem; height: 35px; line-height: normal; text-align: center; background: #f1f1f1; border: 1px solid #D4D4D4; border-radius: .25rem  0 0 .25rem;  box-sizing: border-box;}
+.add-user span:last-child {border-radius: 0 .25rem .25rem 0; cursor: pointer;}
+.add-user input {border: 1px solid #d4d4d4; border-right: none; border-left: none;}
+.no-line th, .no-line td {border-right: none;}
+
+.scroll-box {height: 320px; overflow-y: scroll; border-bottom: 1px solid #e2e2e2;}
+
+/* 알림톡템플릿 불러오기 2020-11-11 */
+.popup-search-right  {display: flex; align-items: center; width: 100%; margin-bottom: 1rem; justify-content: flex-end; background: #fff;}
+.call-at-list ul {display: flex; flex-wrap: wrap; margin: 0; padding: 0;}
+.call-at-list li {width: calc(25% - 10px); height: 235px; margin-right: 10px; border: 1px solid #adb5bd; border-radius: .21rem; overflow-y: auto; cursor: pointer; background-color: #eceff1;}
+.call-at-list li:nth-child(n+5) {margin-top: 10px;}
+.call-at-list li:nth-child(4n) {margin-right: 0px;}
+.call-at-list li.active {background: #eef8fb; border: 1px solid #3bafda;}
+.call-at-list dt {border-bottom: 1px solid #ddd;}
+.call-at-list li.active dt {border-bottom: 1px solid #bce4f2;}
+.call-at-list dt, .call-at-list dd {line-height: 1.3; padding: .6rem;}
+.btn-at {display: block; text-align: center; padding: .7rem .5rem; margin-top: 1rem; width: 100%; border: 1px solid #adb5bd; border-radius: .25rem; box-sizing: border-box;}

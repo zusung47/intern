@@ -1,0 +1,11 @@
+@charset "utf-8";
+/*layout*/
+
+header {position: relative;}
+article {position: fixed; width: 240px; overflow-y: auto; z-index: 10;}
+.container {padding: 2.55rem 1.25rem 1.5rem 270px; width: 100%; box-sizing: border-box;}
+footer {padding: 1.5rem 1.25rem 1.5rem 270px; width: 100%; box-sizing: border-box;}
+
+
+
+

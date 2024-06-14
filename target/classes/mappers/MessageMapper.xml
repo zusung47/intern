@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tigensoft.intern.dao.MessageDAO">
+    <resultMap id="messageResultMap" type="com.tigensoft.intern.dto.MessageDTO">
+        <id property="messageId" column="message_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="creationUser" column="creation_user"/>
+        <result property="receiver" column="receiver"/>
+    </resultMap>
+    
+    <select id="selectAllMessageList" resultMap="messageResultMap">
+        select * from message
+        order by message_Id desc
+    </select>
+
+    <select id="selectMessageById" parameterType="int" resultMap="messageResultMap">
+        select message_Id, title, content, creation_date, creation_user, receiver from message
+        where message_Id = #{ messageId }
+    </select>
+
+    <insert id="addNewMessage" parameterType="com.tigensoft.intern.dto.MessageDTO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into message (title, content, creation_date, creation_user, receiver)
+        values (#{ title }, #{ content }, #{ creationDate }, #{ creationUser }, #{ receiver })
+    </insert>
+
+    <delete id="deleteMessageById" parameterType="int">
+        delete from message
+        where message_Id = #{ messageId }
+    </delete>
+
+    <update id="updateMessage" parameterType="com.tigensoft.intern.dto.MessageDTO">
+        update message
+        set title = #{ title }, content = #{ content }, receiver = #{ receiver }, creation_date = #{ creationDate }
+        where message_Id = #{ messageId }
+    </update>
+</mapper>
