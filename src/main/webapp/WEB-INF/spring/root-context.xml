@@ -13,12 +13,29 @@
 	<tx:annotation-driven/>
 
 	<!-- hikaricp datasource 설정 -->
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+<!--	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">-->
+<!--		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/tigen?serverTimezone=Asia/Seoul"/>-->
+<!--		<property name="username" value="root"/>-->
+<!--		<property name="password" value="140500"/>-->
+<!--		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--		<property name="maximumPoolSize" value="10"/>-->
+<!--	</bean>-->
+
+	<bean id="dataSourceSpied" class="com.zaxxer.hikari.HikariDataSource">
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/tigen?serverTimezone=Asia/Seoul"/>
 		<property name="username" value="root"/>
 		<property name="password" value="140500"/>
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
 		<property name="maximumPoolSize" value="10"/>
+	</bean>
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="SQL : "/>
+			</bean>
+		</property>
 	</bean>
 
 	<!-- mybatis sqlseesionfactory -->
