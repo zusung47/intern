@@ -19,6 +19,6 @@ public class ErrorController {
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
 
-        return "/login-form";
+        return "views/login-form";
     }
 }

@@ -27,22 +27,24 @@ public class CustomLoginFailHandler extends SimpleUrlAuthenticationFailureHandle
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.warn("*********login failed***********CustomLoginFailHandler*********");
 
-        String loginFailMsg = null;
-        if (exception instanceof BadCredentialsException) {
-            loginFailMsg =  "아이디 또는 비밀번호를 확인해주세요.";
-        } else if (exception instanceof AuthenticationServiceException) {
-            loginFailMsg = "죄송합니다. 시스템에 오류가 발생했습니다.";
-        } else {
-            loginFailMsg = "계정을 찾을 수 없습니다.";
+        try {
+            String loginFailMsg = null;
+            if (exception instanceof BadCredentialsException) {
+                loginFailMsg =  "아이디 또는 비밀번호를 확인해주세요.";
+            } else if (exception instanceof AuthenticationServiceException) {
+                loginFailMsg = "죄송합니다. 시스템에 오류가 발생했습니다.";
+            } else {
+                loginFailMsg = "계정을 찾을 수 없습니다.";
+            }
+
+            loginFailMsg = URLEncoder.encode(loginFailMsg, "UTF-8");
+            setDefaultFailureUrl("/login/error?error=true&exception=" + loginFailMsg);
+
+            super.onAuthenticationFailure(request, response, exception);
+
+        } catch (Exception e) {
+            log.error("error in fail", e);
+            throw e;
         }
-
-        loginFailMsg = URLEncoder.encode(loginFailMsg, "UTF-8");
-        setDefaultFailureUrl("/login/error?error=true&exception=" + loginFailMsg);
-
-        super.onAuthenticationFailure(request, response, exception);
-//        request.setAttribute("loginFailMsg", loginFailMsg);
-//        log.warn("loginFailMsg : " + loginFailMsg);
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/login-form.jsp");
-//        dispatcher.forward(request, response);
     }
 }
