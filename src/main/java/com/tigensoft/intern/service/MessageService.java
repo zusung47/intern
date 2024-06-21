@@ -1,7 +1,9 @@
 package com.tigensoft.intern.service;
 
 
+import com.tigensoft.intern.dao.MemberDAO;
 import com.tigensoft.intern.dao.MessageDAO;
+import com.tigensoft.intern.dto.Criteria;
 import com.tigensoft.intern.dto.MessageDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +47,7 @@ public class MessageService {
         messageDTO.setCreationDate(new Date());
         logger.info(messageDTO.getCreationDate());
         //로그인구현후 로그인유저로변경
-        messageDTO.setCreationUser("testUser");
+        //messageDTO.setCreationUser("testUser");
 
         messageDAO.addNewMessage(messageDTO);
     }
@@ -65,5 +67,35 @@ public class MessageService {
         logger.info("dto : {}", messageDTO);
         messageDTO.setCreationDate(new Date());
         messageDAO.updateMessage(messageDTO);
+    }
+
+    @Transactional
+    public void updateCheckTypeTrue(MessageDTO messageDTO) {
+
+        logger.info("===========MessageService updateCheckTypeTrue start===========");
+        messageDTO.setCheckType("true");
+        messageDAO.updateCheckTypeTrue(messageDTO);
+    }
+
+    @Transactional
+    public void updateCheckTypeFalse(MessageDTO messageDTO) {
+
+        logger.info("===========MessageService updateCheckTypeFalse start===========");
+        messageDTO.setCheckType("false");
+        messageDAO.updateCheckTypeFalse(messageDTO);
+    }
+
+    @Transactional
+    public void deleteMessageByCheckTypeTrue() {
+
+        logger.info("===========MessageService deleteMessageByCheckTypeTrue start===========");
+        messageDAO.deleteMessageByCheckTypeTrue();
+    }
+
+    public List<MessageDTO> searchMessage(Criteria cri) {
+
+        logger.info("===========MessageService searchMessage start===========");
+
+        return messageDAO.searchMessage(cri);
     }
 }

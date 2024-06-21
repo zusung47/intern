@@ -9,16 +9,17 @@
         <result property="creationDate" column="creation_date"/>
         <result property="creationUser" column="creation_user"/>
         <result property="receiver" column="receiver"/>
+        <result property="checkType" column="check_type"/>
     </resultMap>
     
     <select id="selectAllMessageList" resultMap="messageResultMap">
         select * from message
-        order by message_Id desc
+        order by message_id desc
     </select>
 
     <select id="selectMessageById" parameterType="int" resultMap="messageResultMap">
-        select message_Id, title, content, creation_date, creation_user, receiver from message
-        where message_Id = #{ messageId }
+        select message_id, title, content, creation_date, creation_user, receiver from message
+        where message_id = #{ messageId }
     </select>
 
     <insert id="addNewMessage" parameterType="com.tigensoft.intern.dto.MessageDTO"
@@ -29,7 +30,7 @@
 
     <delete id="deleteMessageById" parameterType="int">
         delete from message
-        where message_Id = #{ messageId }
+        where message_id = #{ messageId }
     </delete>
 
     <update id="updateMessage" parameterType="com.tigensoft.intern.dto.MessageDTO">
@@ -37,4 +38,36 @@
         set title = #{ title }, content = #{ content }, receiver = #{ receiver }, creation_date = #{ creationDate }
         where message_Id = #{ messageId }
     </update>
+
+    <update id="updateCheckTypeTrue" parameterType="com.tigensoft.intern.dto.MessageDTO">
+        update message
+        set check_type = #{ checkType }
+        where message_id = #{ messageId }
+    </update>
+
+    <update id="updateCheckTypeFalse" parameterType="com.tigensoft.intern.dto.MessageDTO">
+        update message
+        set check_type = #{ checkType }
+        where message_id = #{ messageId }
+    </update>
+
+    <delete id="deleteMessageByCheckTypeTrue">
+        delete from message
+        where check_type = 'true'
+    </delete>
+
+    <select id="searchMessage" resultMap="messageResultMap">
+        select * from message
+        <if test="searchCondition == 'A'.toString()">
+            where title like CONCAT('%', #{searchText}, '%')
+            or content like CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test="searchCondition == 'T'.toString()">
+            where title like CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test="searchCondition == 'C'.toString()">
+            where content like CONCAT('%', #{searchText}, '%')
+        </if>
+        order by message_id desc
+    </select>
 </mapper>

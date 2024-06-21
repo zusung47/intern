@@ -1,18 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ include file="../_inc/header-1.jsp"%>
 <%@ include file="../_inc/header-2.jsp"%>
 <%@ include file="../_inc/lnb.jsp"%>
 
 <script>
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
+
 	function addMessage() {
-		$("#theForm").attr("action", "<%=request.getContextPath()%>/addMessage.do");
-		$("#theForm").attr("method", "POST");
-		$("#theForm").submit();
+		const url = "<%=request.getContextPath()%>/addMessage.do";
+
+		const title = document.getElementById('title').value;
+		const content = document.getElementById('content').value;
+		const receiver = document.getElementById('receiver').value;
+		const creationUser = document.getElementById('creationUser').textContent;
+
+		fetch(url , {
+			method: 'POST',
+			headers: {
+				'header': csrfHeaderName,
+				'Content-Type': 'application/json',
+				'X-CSRF-Token': csrfTokenValue
+			},
+			body: JSON.stringify({
+				title: title,
+				content: content,
+				receiver: receiver,
+				creationUser: creationUser
+			})
+		})
+				.then(response => {
+					if (response.ok) {
+						alert('메세지가 정상적으로 추가되었습니다.');
+						window.location.href = "<%=request.getContextPath()%>/messageList.do";
+					}
+				})
+				.catch(error => {
+					console.error('에러 발생:', error);
+					alert('메세지 저장 중 에러가 추가했습니다.');
+				})
 	}
 </script>
 
-<form id="theForm" name="theForm" enctype="multipart/form-data">
+<form id="theForm" name="theForm">
 	
 	<div class="container">
 		<div class="container-header">
@@ -55,9 +86,16 @@
 										<textarea id="content" name="content" cols="" rows="15" class="form-control h-150 w-100"></textarea>
 									</td>
 								</tr>
-								
 								<tr>
-									<th scope="col">받는사람</th>
+									<th scope="col">From</th>
+									<td colspan="3">
+										<div class="input-group display-inline align-middle">
+											<p id="creationUser"><sec:authentication property="principal.member.userName"/></p>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th scope="col">To</th>
 									<td colspan="3">
 										<div class="input-group display-inline align-middle">
 											<input type="email" class="form-control" name="receiver" id="receiver">

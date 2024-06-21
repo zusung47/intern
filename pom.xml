@@ -16,6 +16,7 @@
 		<egovframework.rte-version>3.7.0</egovframework.rte-version>
 		<commons-fileupload-version>1.4</commons-fileupload-version>
 		<commons-io-version>2.11.0</commons-io-version>
+		<security.version>5.0.6.RELEASE</security.version>
 	</properties>
 	
 	<repositories>
@@ -196,17 +197,37 @@
 			<version>4.0.3</version>
 		</dependency>
 
-		<!-- file upload -->
+		<!-- 스프링 시큐리티 -->
 		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>${commons-fileupload-version}</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${security.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io-version}</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${security.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${security.version}</version>
+		</dependency>
+		<!-- 스프링 시큐리티 -->
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.17.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

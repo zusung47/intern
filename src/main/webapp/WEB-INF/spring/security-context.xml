@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <bean id="customLoginSuccess" class="com.tigensoft.intern.security.CustomLoginSuccessHandler"></bean>
+    <bean id="customLoginFailed" class="com.tigensoft.intern.security.CustomLoginFailHandler"/>
+    <bean id="customAccessDenied" class="com.tigensoft.intern.security.CustomAccessDeniedHandler"></bean>
+    <bean id="sha512PasswordEncoder" class="com.tigensoft.intern.security.SHA512PasswordEncoder"/>
+    <bean id="customUserDetailsService" class="com.tigensoft.intern.security.CustomUserDetailsService"></bean>
+    <bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+                    <property name="userDetailsService" ref="customUserDetailsService"/>
+                    <property name="passwordEncoder" ref="sha512PasswordEncoder"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="rsaAuthenticationFilter" class="com.tigensoft.intern.security.RSAauthenticationFilter">
+        <constructor-arg ref="authenticationManager"/>
+        <constructor-arg ref="customLoginSuccess"/>
+        <constructor-arg ref="customLoginFailed"/>
+    </bean>
+
+    <!-- web.xml의 springSecurityFilterChain 설정 -->
+    <security:http>
+        <!--ACCESS-DENIED-->
+        <security:access-denied-handler ref="customAccessDenied"/>
+        <!--로그인 페이지-->
+        <security:form-login
+                login-page="/index.do"
+        />
+        <!--복호화 필터-->
+        <security:custom-filter ref="rsaAuthenticationFilter" before="FORM_LOGIN_FILTER"/>
+        <!--로그아웃 페이지 invalidate-session은 로그아웃 시 사용자의 세션을 무효화할지를 결정-->
+        <security:logout logout-url="/logout" invalidate-session="true"/>
+    </security:http>
+
+    <!-- UserDetailsService -->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="customUserDetailsService">
+            <security:password-encoder ref="sha512PasswordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <!-- 단순 로그인 테스트용
+            <security:user-service>
+                <security:user name="user1" password="{noop}pw1" authorities="ROLE_MEMBER"/>
+            </security:user-service>
+            <security:jdbc-user-service data-source-ref="dataSource"/>
+             -->
+</beans>

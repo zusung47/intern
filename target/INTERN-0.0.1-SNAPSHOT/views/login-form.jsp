@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,9 +16,48 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
 
 <script>
-	function messageListOpen() {
-		$("#loginForm").attr("action", "<%=request.getContextPath()%>/messageList.do")
-		$("#loginForm").submit();
+	window.onload = function() {
+		var rsaPublicKeyModulus = document.getElementById("rsaPublicKeyModulus").value;
+		var rsaPublicKeyExponent = document.getElementById("rsaPublicKeyExponent").value;
+
+		console.log("Public Key Modulus:", rsaPublicKeyModulus);
+		console.log("Public Key Exponent:", rsaPublicKeyExponent);
+	};
+
+	function validateEncryptedForm() {
+		var username = document.getElementById("beforeUsername").value;
+		var password = document.getElementById("beforePassword").value;
+		if(!username || !password) {
+			alert("아이디나 비밀번호를 입력해주세요.");
+			return false;
+		}
+
+		try {
+			var rsaPublicKeyModulus = document.getElementById("rsaPublicKeyModulus").value;
+			var rsaPublicKeyExponent = document.getElementById("rsaPublicKeyExponent").value;
+			submitEncryptedForm(username, password, rsaPublicKeyModulus, rsaPublicKeyExponent);
+		} catch (err) {
+			alert(err);
+		}
+	}
+
+	function submitEncryptedForm(username, password, rsaPublicKeyModulus, rsaPublicKeyExponent) {
+		var rsa = new RSAKey();
+		rsa.setPublic(rsaPublicKeyModulus, rsaPublicKeyExponent);
+
+		var securedUsername = rsa.encrypt(username);
+		var securedPassword = rsa.encrypt(password);
+
+		console.log("test : " + securedPassword);
+
+		var securedLoginForm = document.getElementById("loginForm");
+		securedLoginForm.TGusername.value = securedUsername;
+		securedLoginForm.TGpassword.value = securedPassword;
+		securedLoginForm.submit();
+	}
+
+	function loginChk() {
+		validateEncryptedForm();
 	}
 </script>
 
@@ -30,21 +70,29 @@
 			<span>TG 1st Message</span>
 			<small>통합메시지전송솔루션</small>
 		</h1>
-		<form id="loginForm" name="loginForm">
+<%--		<span>--%>
+<%--			<c:if test="${error}">--%>
+<%--				<p> ERROR : <c:out value="${exception}"/></p>--%>
+<%--			</c:if>--%>
+<%--		</span>--%>
 			<ul class="login-input mt-20">
 				<li>
 					<label for="login-id"><i class="ft-user"></i></label>
-					<input type="text" class="" title="" value="" name="userId" id="userId"  onkeypress="if(event.keyCode==13) loginChk();" />
+					<input type="text" class="" title="" value="" name="beforeUsername" id="beforeUsername"  onkeypress="if(event.keyCode==13) loginChk();" />
 				</li>
 				<li>
 					<label for="loginPw"><i class="ft-unlock"></i></label>
-					<input type="password" class="" title="" value="" name="userPw" id="userPw"  onkeypress="if(event.keyCode==13) loginChk();"/>
+					<input type="password" class="" title="" value="" name="beforePassword" id="beforePassword"  onkeypress="if(event.keyCode==13) loginChk();"/>
 				</li>
+				<input type="hidden" id="rsaPublicKeyModulus" value="<%=request.getAttribute("publicKeyModulus")%>"/>
+				<input type="hidden" id="rsaPublicKeyExponent" value="<%=request.getAttribute("publicKeyExponent")%>"/>
 			</ul>
 			<!-- <button type="button" class=" mt-20 btn btn-login" onclick="javascritp:window.open('/html/contents/test-send/send-simple-1.jsp','_self');">로그인</button> -->
-			<button type="button" class=" mt-20 btn btn-login" onclick="messageListOpen()">로그인</button>
-			<button type="button" class="testbtn" onclick="testdb()">테스트</button>
-			<!-- <button type="button" class=" mt-20 btn btn-login" id="login_btn" >로그인</button> -->
+			<button type="button" class=" mt-20 btn btn-login" id="login_btn"  onclick="validateEncryptedForm();">로그인</button>
+		<form id="loginForm" name="loginForm" method="post" action="/login">
+			<input type="hidden" name="TGusername" id="TGusername"/>
+			<input type="hidden" name="TGpassword" id="TGpassword"/>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		</form>
 	</div>
 </div>

@@ -5,6 +5,9 @@
 <%@ include file="../_inc/lnb.jsp"%>
 
 <script>
+    var csrfHeaderName = "${_csrf.headerName}";
+    var csrfTokenValue = "${_csrf.token}";
+
     //메세지 삭제
     function deleteMessage(messageId) {
         const userConfirmed = confirm("정말로 이 메세지를 삭제하시겠습니까?");
@@ -13,7 +16,11 @@
             const url = "<%=request.getContextPath()%>/deleteMessage/" + messageId + ".do";
 
             fetch(url, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'header': csrfHeaderName,
+                    'X-CSRF-Token': csrfTokenValue
+                }
             })
                 .then(response => {
                     if (response.ok) {
@@ -43,7 +50,9 @@
             fetch(url, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'header': csrfHeaderName,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfTokenValue
                 },
                 body: JSON.stringify({
                     messageId: messageId,

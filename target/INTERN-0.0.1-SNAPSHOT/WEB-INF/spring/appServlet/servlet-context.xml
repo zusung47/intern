@@ -4,10 +4,12 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
@@ -16,17 +18,12 @@
 
 	<context:annotation-config/>
 
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="100000"/>
-		<beans:property name="defaultEncoding" value="utf-8"/>
-<!--		<beans:property name="uploadTempDir" ref="uploadDirResource"/>-->
-	</beans:bean>
-
-<!--	<beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">-->
-<!--		<beans:constructor-arg value="c:/upload/"/>-->
-<!--	</beans:bean>-->
-
 	<beans:bean class="com.tigensoft.intern.controller.IndexController"/>
 	<beans:bean class="com.tigensoft.intern.controller.MessageController"/>
+<!--	<beans:bean class="com.tigensoft.intern.controller.LoginController"/>-->
+
+	<!-- 어노테이션 이용 스프링 시큐리티 설정 -->
+	<security:global-method-security
+		pre-post-annotations="enabled" secured-annotations="enabled"/>
 
 </beans:beans>

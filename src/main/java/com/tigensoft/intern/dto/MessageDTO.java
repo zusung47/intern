@@ -25,6 +25,8 @@ public class MessageDTO {
     private String creationUser;
     //수령인
     private String receiver;
+    //체크 여부
+    private String checkType;
 
 
     public MessageDTO(String title, String content, String receiver){
@@ -42,6 +44,7 @@ public class MessageDTO {
                 ", creationDate=" + creationDate +
                 ", creationUser='" + creationUser + '\'' +
                 ", receiver='" + receiver + '\'' +
+                ", checkType='" + checkType + '\'' +
                 '}';
     }
 }

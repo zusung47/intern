@@ -1,5 +1,6 @@
 package com.tigensoft.intern.dao;
 
+import com.tigensoft.intern.dto.Criteria;
 import com.tigensoft.intern.dto.MessageDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -90,6 +91,56 @@ public class MessageDAO {
             sqlSession.update("com.tigensoft.intern.dao.MessageDAO.updateMessage", messageDTO);
         } catch (Exception e) {
             logger.info("===========MessageDAO updateMessage failed===========");
+        }
+    }
+
+    public void updateCheckTypeTrue(MessageDTO messageDTO) {
+
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
+
+            logger.info("===========MessageDAO updateCheckTypeTrue start===========");
+
+            sqlSession.update("com.tigensoft.intern.dao.MessageDAO.updateCheckTypeTrue", messageDTO);
+        } catch (Exception e) {
+            logger.info("===========MessageDAO updateCheckTypeTrue failed===========");
+        }
+    }
+
+    public void updateCheckTypeFalse(MessageDTO messageDTO) {
+
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
+
+            logger.info("===========MessageDAO updateCheckTypeFalse start===========");
+
+            sqlSession.update("com.tigensoft.intern.dao.MessageDAO.updateCheckTypeFalse", messageDTO);
+        } catch (Exception e) {
+            logger.info("===========MessageDAO updateCheckTypeFalse failed===========");
+        }
+    }
+
+    public void deleteMessageByCheckTypeTrue() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
+
+            logger.info("===========MessageDAO deleteMessageByCheckTypeTrue start===========");
+
+            sqlSession.delete("com.tigensoft.intern.dao.MessageDAO.deleteMessageByCheckTypeTrue");
+        } catch (Exception e) {
+            logger.info("===========MessageDAO deleteMessageByCheckTypeTrue failed===========");
+        }
+    }
+
+    public List<MessageDTO> searchMessage(Criteria cri) {
+        logger.info("===========MessageDAO searchMessage start===========");
+
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
+
+            return sqlSession.selectList("com.tigensoft.intern.dao.MessageDAO.searchMessage", cri);
+
+        } catch (Exception e) {
+
+            logger.error("MessageDAO selectAllMessageList error", e);
+            throw new RuntimeException("Failed to selectAllMessageList", e);
+
         }
     }
 }
